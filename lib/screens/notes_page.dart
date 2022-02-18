@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:sqflite_database_example/db/notes_database.dart';
-import 'package:sqflite_database_example/model/note.dart';
-import 'package:sqflite_database_example/page/edit_note_page.dart';
-import 'package:sqflite_database_example/page/note_detail_page.dart';
-import 'package:sqflite_database_example/widget/note_card_widget.dart';
+import 'package:sqflite_database_example/database/notes_database.dart';
+import 'package:sqflite_database_example/data/note.dart';
+import 'package:sqflite_database_example/screens/edit_note_page.dart';
+import 'package:sqflite_database_example/screens/note_detail_page.dart';
+import 'package:sqflite_database_example/widgets/note_card_widget.dart';
 
 class NotesPage extends StatefulWidget {
   @override
@@ -14,26 +14,23 @@ class NotesPage extends StatefulWidget {
 class _NotesPageState extends State<NotesPage> {
   late List<Note> notes;
   bool isLoading = false;
+  static final String title = 'To-Do';
 
   @override
   void initState() {
     super.initState();
-
     refreshNotes();
   }
 
   @override
   void dispose() {
     NotesDatabase.instance.close();
-
     super.dispose();
   }
 
   Future refreshNotes() async {
     setState(() => isLoading = true);
-
     this.notes = await NotesDatabase.instance.readAllNotes();
-
     setState(() => isLoading = false);
   }
 
@@ -41,7 +38,7 @@ class _NotesPageState extends State<NotesPage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text(
-            'Notes',
+            title,
             style: TextStyle(fontSize: 24),
           ),
           actions: [Icon(Icons.search), SizedBox(width: 12)],
@@ -51,14 +48,22 @@ class _NotesPageState extends State<NotesPage> {
               ? CircularProgressIndicator()
               : notes.isEmpty
                   ? Text(
-                      'No Notes',
+                      'No Notes, \n'
+                      'Please click \n '
+                      '+ '
+                      '\n button for adding a new Note',
                       style: TextStyle(color: Colors.white, fontSize: 24),
+                      textAlign: TextAlign.center,
                     )
                   : buildNotes(),
         ),
         floatingActionButton: FloatingActionButton(
+          // backgroundColor: Colors.black54,
           backgroundColor: Colors.black,
-          child: Icon(Icons.add),
+          child: Icon(
+            Icons.add,
+            // color: Colors.white,
+          ),
           onPressed: () async {
             await Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => AddEditNotePage()),

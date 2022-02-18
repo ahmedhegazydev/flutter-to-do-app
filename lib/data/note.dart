@@ -22,6 +22,7 @@ class Note {
   final String description;
   final DateTime createdTime;
 
+  //Constructor
   const Note({
     this.id,
     required this.isImportant,

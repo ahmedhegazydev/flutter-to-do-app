@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:sqflite_database_example/model/note.dart';
+import 'package:sqflite_database_example/data/note.dart';
 
 final _lightColors = [
+  Colors.pinkAccent.shade100,
+  Colors.tealAccent.shade100,
+  Colors.tealAccent.shade400,
+  Colors.lightBlue,
+  Colors.green,
   Colors.amber.shade300,
   Colors.lightGreen.shade300,
   Colors.lightBlue.shade300,
   Colors.orange.shade300,
-  Colors.pinkAccent.shade100,
-  Colors.tealAccent.shade100
 ];
 
 class NoteCardWidget extends StatelessWidget {
@@ -29,6 +32,8 @@ class NoteCardWidget extends StatelessWidget {
     final minHeight = getMinHeight(index);
 
     return Card(
+      // elevation: 2,  // Change this
+      // shadowColor: Colors.white,  // Change this
       color: color,
       child: Container(
         constraints: BoxConstraints(minHeight: minHeight),
@@ -44,9 +49,24 @@ class NoteCardWidget extends StatelessWidget {
             SizedBox(height: 4),
             Text(
               note.title,
+              // overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              textAlign: TextAlign.justify,
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 20,
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              note.description,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 4,
+              textAlign: TextAlign.justify,
+              style: TextStyle(
+                // color: Colors.black,
+                color: Colors.black54,
+                fontSize: 19,
                 fontWeight: FontWeight.bold,
               ),
             ),
